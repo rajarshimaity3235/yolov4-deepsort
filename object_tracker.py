@@ -115,10 +115,10 @@ def main(_argv):
             pred = [interpreter.get_tensor(output_details[i]['index']) for i in range(len(output_details))]
             # run detections using yolov3 if flag is set
             if FLAGS.model == 'yolov3' and FLAGS.tiny == True:
-                boxes, pred_conf = filter_boxes(pred[1], pred[0], score_threshold=0.25,
+                boxes, pred_conf = filter_boxes(pred[1], pred[0], score_threshold=0.5,
                                                 input_shape=tf.constant([input_size, input_size]))
             else:
-                boxes, pred_conf = filter_boxes(pred[0], pred[1], score_threshold=0.25,
+                boxes, pred_conf = filter_boxes(pred[0], pred[1], score_threshold=0.5,
                                                 input_shape=tf.constant([input_size, input_size]))
         else:
             batch_data = tf.constant(image_data)
@@ -160,7 +160,7 @@ def main(_argv):
         allowed_classes = list(class_names.values())
         
         # custom allowed classes (uncomment line below to customize tracker for only people)
-        #allowed_classes = ['person']
+        allowed_classes = ['car','truck','bus','bicycle','motorcycle']
 
         # loop through objects and use class index to get class name, allow only classes in allowed_classes list
         names = []
